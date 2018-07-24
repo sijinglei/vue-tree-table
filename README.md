@@ -128,13 +128,14 @@ export default {
 	</div>
 </template>
 ```
-首先这里的子组件`tree-item`没有在页面上有引入，但是也可以正常使用。这里就是关健点，因为这个子组件是需要递归实现，所以，需要动态注册到当然组件中。代码如下（由于代码太多，先贴图说明吧，[点击这里](https://github.com/sijinglei/vue-tree-table/blob/master/src/components/tree-table.vue)看源码）：
+首先这里的子组件`tree-item`没有在页面上有引入，但是也可以正常使用。这里就是关健点，因为这个子组件是需要递归实现，所以，需要动态注册到当前组件中。代码如下（由于代码太多，先贴图说明吧，[点击这里](https://github.com/sijinglei/vue-tree-table/blob/master/src/components/tree-table.vue)可以看源码）：
 
 ![](https://user-gold-cdn.xitu.io/2018/7/24/164cb5dddee5b208?w=672&h=862&f=png&s=48872)
 
 这里子组件看起来是不是挺奇怪的，但是为了递归他本身，暂时也只想到这种办法。如果有更好的办法，欢迎留言指正。<br>
-那么，树表格的结构实现在哪里呢，就在子组件的模版里面，这里就不贴代码了，可以移步到[源码](https://github.com/sijinglei/vue-tree-table/blob/master/src/components/tree-table.vue)查看
-> 补充一点：不要只看js部分，css部分才是这个树表格的关健所在。当然里面我采用了大量的计算属性去判断各种样式的展示，还有一种方法，就是在`initTreeData`方法里面去实现，这个方法就是处理或添加一些我们树表格所使用的信息。比如我现在在里面实现的层级线的偏移量`m.bLeft = level === 1 ? 34 : (level - 2) * 16 + 34` 这个计算如果没有搞明白，可以留言，或者看下图。
+那么，树表格的结构实现在哪里呢？？对，就是在子组件的模版(`template`)里面，这里就不贴代码了，可以移步到[源码](https://github.com/sijinglei/vue-tree-table/blob/master/src/components/tree-table.vue)查看。
+> 补充一点：不要只看js部分，css部分才是这个树表格的关健所在。当然里面我采用了大量的计算属性去判断各种样式的展示，还有一种方法，就是在`initTreeData`方法里面去实现，这个方法就是处理或添加一些我们树表格所使用的信息。比如我现在在里面实现的层级线的偏移量`m.bLeft = level === 1 ? 34 : (level - 2) * 16 + 34` 这个计算如果没有看明白，可以留言。
+
 
 - 源码地址[github](https://github.com/sijinglei/vue-tree-table)，欢迎star。
 > 参考资源[隔壁家的老黄](https://www.cnblogs.com/ychl/p/6075106.html)
