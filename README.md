@@ -1,4 +1,4 @@
-# vue-tree-table
+#基于vue.js实现树形表格的封装（vue-tree-table）
 
 # 前言
 
@@ -136,7 +136,8 @@ export default {
 那么，树表格的结构实现在哪里呢？？对，就是在子组件的模版(`template`)里面，这里就不贴代码了，可以移步到[源码](https://github.com/sijinglei/vue-tree-table/blob/master/src/components/tree-table.vue)查看。
 > 补充一点：不要只看js部分，css部分才是这个树表格的关健所在。当然里面我采用了大量的计算属性去判断各种样式的展示，还有一种方法，就是在`initTreeData`方法里面去实现，这个方法就是处理或添加一些我们树表格所使用的信息。比如我现在在里面实现的层级线的偏移量`m.bLeft = level === 1 ? 34 : (level - 2) * 16 + 34` 这个计算如果没有看明白，可以留言。
 
-
+最后，此篇乃我的开篇之作，如有问题，还请多多包含，多多指教！！！顺便给我好久没有更新的博客打个广告,
+欢迎点击（[<span style="color:#f24c27;font-weight:600">一座城池</span>](http://yizuocity.com/)）
 - 源码地址[github](https://github.com/sijinglei/vue-tree-table)，欢迎star。
 > 参考资源[隔壁家的老黄](https://www.cnblogs.com/ychl/p/6075106.html)
 
