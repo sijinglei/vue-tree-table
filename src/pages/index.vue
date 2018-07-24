@@ -1,6 +1,5 @@
 <template>
   <div class="contains">
-    <!-- <button @click="changeData">切换数据结构</button> -->
     <h1>树表格实现</h1>
     <tree-table ref="recTree"
     :list.sync="treeDataSource"
@@ -379,7 +378,6 @@ export default {
     orderByFunc(val) {
       alert('排序')
       alert(val)
-
     },
     actionFunc(m) {
       alert('编辑')
@@ -387,7 +385,7 @@ export default {
     deleteFunc(m) {
       alert('删除')
     },
-    changeData() {
+    getTreeData() {
       // 取父节点
       let parentArr = this.list.filter(l => l.parentId === 0)
       this.treeDataSource = this.getTreeData(this.list, parentArr)

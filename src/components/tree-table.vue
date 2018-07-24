@@ -26,7 +26,7 @@
 							<td>
 								<tree-item
 									v-for="(model,i) in treeDataSource"
-                  :key="String('root_node_'+i)"
+                  :key="'root_node_'+i"
 									:root="0"
 									:num="i"
 									@actionFunc="actionFunc"
@@ -51,7 +51,6 @@
 		data() {
 			return {
 				isDesc: false,
-				isExpand: false,
 				treeDataSource: []
 			}
 		},
@@ -77,7 +76,6 @@
 				let tempData = JSON.parse(JSON.stringify(this.list))
 				let reduceDataFunc = (data, level) => {
 					data.map((m, i) => {
-						// this.$set(m, 'isExpand', false)
 						m.isExpand = false
 						m.children = m.children || []
 						m.level = level
