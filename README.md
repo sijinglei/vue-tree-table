@@ -1,6 +1,6 @@
 # vue-tree-table
 
-> 基于vue.[Cjs的树表格。
+> 基于vue.js的树表格。
 
 ## Build Setup
 
