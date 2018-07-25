@@ -135,7 +135,7 @@ export default {
 这里子组件看起来是不是挺奇怪的，但是为了递归他本身，暂时也只想到这种办法。如果有更好的办法，欢迎留言指正。<br>
 那么，树表格的结构实现在哪里呢？？对，就是在子组件的模版(`template`)里面，这里就不贴代码了，可以移步到[源码](https://github.com/sijinglei/vue-tree-table/blob/master/src/components/tree-table.vue)查看。<br>
 - 感谢
-> 收到[favourli](https://juejin.im/user/5b0d3e2d5188251558575c17)的指正，现已将原有写法更新,采用[异步组件](https://cn.vuejs.org/v2/guide/components-edge-cases.html#%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8)来实现，这样页面看起来就更清晰。
+> 收到[favourli](https://juejin.im/user/5b0d3e2d5188251558575c17)的指正，现已将原有写法更新,采用[递归组件](https://cn.vuejs.org/v2/guide/components-edge-cases.html#%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8)来实现，这样页面看起来就更清晰。
 ``` html
 	components: {
 			treeItem: () => import('./tree-item.vue')
