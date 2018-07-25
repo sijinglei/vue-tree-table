@@ -7,7 +7,7 @@
 
 ## 树形表格实现
 
-- 效果图
+- 效果图([Demo](https://sijinglei.github.io/vue-tree-table/dist/#/))
 ![](https://user-gold-cdn.xitu.io/2018/7/24/164cb313dcbb3e95?w=1492&h=998&f=gif&s=1120746)
 - 主要代码
 > index.vue页面实现业务逻辑代码，比如树表格上面的一些操作按钮的实现及数据获取。
