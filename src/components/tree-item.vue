@@ -7,8 +7,8 @@
           <table>
               <tr class="leve" :class="levelClass">
                 <td class="td1">
-                  <div class="td-title" @dblclick="open(model)">
-                    <span v-if="model.children.length > 0" class="tree-close" :class="{'tree-open':model.isExpand}" @click="open(model)"></span>
+                  <div class="td-title" @dblclick="handlerExpand(model)">
+                    <span v-if="model.children.length > 0" class="tree-close" :class="{'tree-open':model.isExpand}" @click="handlerExpand(model)"></span>
                     <a class="ellipsis">
                       <i class="t-icon m-dep"></i>
                       <span :title="model.ObjectName">{{model.ObjectName}}</span>
@@ -41,6 +41,7 @@
           :root="1"
           @actionFunc="actionFunc"
           @deleteFunc="deleteFunc"
+          @handlerExpand="handlerExpand"
           :nodes.sync='model.children.length'
           :trees.sync='trees'
           :model.sync="m">
@@ -76,12 +77,12 @@
 					}
 				},
 				watch: {
-					'model': {
-						handler() {
-							console.log('对象变化', this.model.isExpand)
-						},
-						deep: true
-					}
+					// 'model': {
+					// 	handler() {
+					// 		console.log('对象变化', this.model.isExpand)
+					// 	},
+					// 	deep: true
+					// }
 				},
 				methods: {
 					getParentNode(m) {
@@ -96,8 +97,8 @@
 						}
 						recurFunc(this.trees, this.trees)
 					},
-					open(m) {
-						m.isExpand = !m.isExpand
+					handlerExpand(m) {
+            this.$emit('handlerExpand', m)
 					},
 					deleteFunc(m) {
 						this.$emit('deleteFunc', m)

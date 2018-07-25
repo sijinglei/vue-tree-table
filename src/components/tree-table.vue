@@ -31,6 +31,7 @@
 									:num="i"
 									@actionFunc="actionFunc"
 									@deleteFunc="deleteFunc"
+                  @handlerExpand="handlerExpand"
 									:nodes="treeDataSource.length"
 									:trees.sync="treeDataSource"
 									:model.sync="model">
@@ -96,13 +97,19 @@
 				$('#scrollWrap').mCustomScrollbar('scrollTo', 'top', {
 					scrollInertia: 0
 				})
-			},
+      },
+      // 编辑
 			actionFunc(m) {
 				this.$emit('actionFunc', m)
-			},
+      },
+      // 删除
 			deleteFunc(m) {
 				this.$emit('deleteFunc', m)
-			}
+      },
+      // 展开
+      handlerExpand(m) {
+        this.$emit('handlerExpand', m)
+      }
 		},
 		components: {
 			treeItem: () => import('./tree-item.vue')

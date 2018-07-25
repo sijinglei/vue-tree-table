@@ -5,6 +5,7 @@
     :list.sync="treeDataSource"
     @actionFunc="actionFunc"
     @deleteFunc="deleteFunc"
+    @handlerExpand="handlerExpand"
     @orderByFunc="orderByFunc"></tree-table>
   </div>
 </template>
@@ -384,6 +385,10 @@ export default {
     },
     deleteFunc(m) {
       alert('删除')
+    },
+    handlerExpand(m) {
+      console.log('展开/收缩')
+      m.isExpand = !m.isExpand
     },
     getTreeData() {
       // 取父节点
