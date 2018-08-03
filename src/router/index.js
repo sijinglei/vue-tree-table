@@ -9,6 +9,11 @@ export default new Router({
       path: '/',
       name: 'index',
       component:  resolve => require.ensure([], () => resolve(require('@/pages/index.vue')), 'index')
+    },
+    {
+      path: '/mobile',
+      name: 'mobile',
+      component:  resolve => require.ensure([], () => resolve(require('@/pages/mobile.vue')), 'mobile')
     }
   ]
 })
