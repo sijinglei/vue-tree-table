@@ -31,7 +31,7 @@
         </div>
       </header>
       <div class="main">
-        <ul class="tree-wrap">
+        <!-- <ul class="tree-wrap">
           <li class="node">
             <div class="flex-box" style="padding-left:0">
               <span class="expand" @click="openExpand(model)">
@@ -40,7 +40,8 @@
               <span class="title">{{model.ObjectName}}</span>
             </div>
           </li>
-        </ul>
+        </ul> -->
+        <tree-list :list="treeDataSource"></tree-list>
       </div>
       <!--内容区域end-->
     </div>
@@ -48,10 +49,10 @@
 </template>
 <script>
 import dataJson from './data.json'
+import treeList from '@/components/h5/tree-list.vue'
 export default {
   data() {
     return {
-      list: dataJson,
       treeDataSource: [],
     }
   },
@@ -63,39 +64,27 @@ export default {
       return this.treeDataSource[0].isExpand ? 'i-btn-op' : 'i-btn-close'
     }
   },
+  created() {
+    let newData = JSON.parse(JSON.stringify(dataJson))
+    console.log('传递前', newData)
+    this.treeDataSource = newData
+  },
   mounted() {
-    this.initTreeData()
+    // 取父节点
   },
   methods: {
     // 展开，折叠
     openExpand() {
 
-    },
-    initTreeData() {
-      // console.log('处理前的:', JSON.parse(JSON.stringify(this.list || [])))
-      // 临时储存数据
-      let tempData = JSON.parse(JSON.stringify(this.list))
-      let reduceDataFunc = (data, level, parentObjectGuid) => {
-        data.map((m, i) => {
-          m.isExpand = m.isExpand || false
-          m.children = m.children || []
-          m.level = level
-          m.pObjectGuid = parentObjectGuid // 用与子级父级之间的关联
-          m.ParentName = m.ParentName || '无'
-          if (m.children.length > 0) {
-            reduceDataFunc(m.children, level + 1, m.ObjectGuid)
-          }
-        })
-      }
-      reduceDataFunc(tempData, 1, '000-000')
-      // console.log('处理后的:', tempData)
-      this.treeDataSource = tempData
     }
+  },
+  components: {
+    treeList
   }
 }
 </script>
 <style lang="less">
-@import "../assets/devices.min.css";
+@import '../assets/devices.min.css';
 #app {
     text-align: center;
 }

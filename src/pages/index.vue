@@ -10,7 +10,6 @@ import treeTable from '@/components/pc/tree-table.vue'
 export default {
   data() {
     return {
-      list: dataJson,
       treeDataSource: dataJson
     }
   },
@@ -31,28 +30,28 @@ export default {
     handlerExpand(m) {
       console.log('展开/收缩')
       m.isExpand = !m.isExpand
-    },
-    getTreeData() {
-      // 取父节点
-      let parentArr = this.list.filter(l => l.parentId === 0)
-      this.treeDataSource = this.getTreeData(this.list, parentArr)
-    },
-    // 这里处理没有children结构的数据
-    getTreeData(list, dataArr) {
-      dataArr.map((pNode, i) => {
-        let childObj = []
-        list.map((cNode, j) => {
-          if (pNode.Id === cNode.parentId) {
-            childObj.push(cNode)
-          }
-        })
-        pNode.children = childObj
-        if (childObj.length > 0) {
-          this.getTreeData(list, childObj)
-        }
-      })
-      return dataArr
     }
+    // getTreeData() {
+    //   // 取父节点
+    //   let parentArr = this.list.filter(l => l.parentId === 0)
+    //   this.treeDataSource = this.getTreeData(this.list, parentArr)
+    // },
+    // // 这里处理没有children结构的数据
+    // getTreeData(list, dataArr) {
+    //   dataArr.map((pNode, i) => {
+    //     let childObj = []
+    //     list.map((cNode, j) => {
+    //       if (pNode.Id === cNode.parentId) {
+    //         childObj.push(cNode)
+    //       }
+    //     })
+    //     pNode.children = childObj
+    //     if (childObj.length > 0) {
+    //       this.getTreeData(list, childObj)
+    //     }
+    //   })
+    //   return dataArr
+    // }
   }
 }
 </script>
