@@ -1,22 +1,17 @@
 <template>
   <div class="recoveryPage" v-show="showPage">
-    <div class="g-content">
-      <div class="u-title fBg bdBom">
-        <span class="c65">树结构: {{Total}}</span>
-      </div>
-      <div class="tree-main">
-        <ul class="tree-wrap">
-          <tree-item v-for="(model,i) in treeDataSource" :root="0" :num="i" :nodes="treeDataSource.length" @openParentObj="openParentObj" @openExpand="openExpand" @openDelAction="openDelAction" :model.sync="model" :key="'root_'+i"></tree-item>
-        </ul>
-      </div>
-      <!-- 没有数据时 -->
-      <div class="noData" v-if="list && !list.length && !busy">
-        <!-- <img src="../../assets/image/noTask.png"> -->
-        <p>暂无数据</p>
-      </div>
-      <div class="loading" v-show="busy">
-        <span class="c65">加载中...</span>
-      </div>
+    <div class="tree-main">
+      <ul class="tree-wrap">
+        <tree-item v-for="(model,i) in treeDataSource" :root="0" :num="i" :nodes="treeDataSource.length" @openParentObj="openParentObj" @openExpand="openExpand" @openDelAction="openDelAction" :model.sync="model" :key="'root_'+i"></tree-item>
+      </ul>
+    </div>
+    <!-- 没有数据时 -->
+    <div class="noData" v-if="list && !list.length && !busy">
+      <!-- <img src="../../assets/image/noTask.png"> -->
+      <p>暂无数据</p>
+    </div>
+    <div class="loading" v-show="busy">
+      <span class="c65">加载中...</span>
     </div>
   </div>
 </template>
@@ -29,7 +24,7 @@ export default {
   },
   data() {
     return {
-      showPage: false,
+      showPage: true,
       busy: false,
       flag: false, // 上拉加载开关
       DataIsover: true,
@@ -63,10 +58,9 @@ export default {
   },
   methods: {
     getList(flag = false) {
-      this.list.forEach((item) => {
-        item.isExpand = false
-        item.children = []
-      })
+      // this.list.forEach((item) => {
+      //   item.isExpand = false
+      // })
       this.initTreeData()
     },
     // 处理滚动加载
@@ -80,49 +74,29 @@ export default {
       }
     },
     initTreeData() {
-      console.log('处理前：', this.list)
       // // 临时储存数据
-      // let tempData = JSON.parse(JSON.stringify(this.list))
-      // let reduceDataFunc = (data, level, parentObjectGuid) => {
-      //   data.map((m, i) => {
-      //     m.isExpand = m.isExpand || false
-      //     m.children = m.children || []
-      //     m.level = level
-      //     m.pObjectGuid = parentObjectGuid // 用与子级父级之间的关联
-      //     m.ParentName = m.ParentName || '无'
-      //     if (m.children.length > 0) {
-      //       reduceDataFunc(m.children, level + 1, m.ObjectGuid)
-      //     }
-      //   })
-      // }
-      // reduceDataFunc(tempData, 1, '000-000')
-      // console.log(tempData)
-      // this.treeDataSource = tempData
-    },
-    async openExpand(m) {
-      if (!m.isExpand) {
-        const parames = {
-          sortType: this.pages.sortType,
-          objectTypeId: m.ObjectTypeId,
-          objectId: m.ObjectId
-        }
-        m.isExpand = !m.isExpand
-        // 获取子节点数据
-        const rs = await this.GetRecycleTreeChildList(parames)
-        if (rs.Code === 0) {
-          // 默认先将历史数据改变展开状态
-          this.changeExpand(m, this.list, m.isExpand)
-          rs.Data.forEach((item) => {
-            item.isExpand = false
-          })
-          // 改变完后，将子数据添加到对应的父级节点
-          this.setChildren(m, this.list, rs.Data)
-        }
-      } else {
-        m.isExpand = !m.isExpand
-        this.changeExpand(m, this.list, m.isExpand)
+      let tempData = JSON.parse(JSON.stringify(this.list))
+      let reduceDataFunc = (data, level, parentObjectGuid) => {
+        data.map((m, i) => {
+          m.isExpand = m.isExpand || false
+          m.children = m.children || []
+          m.level = level
+          m.pObjectGuid = parentObjectGuid // 用与子级父级之间的关联
+          m.ParentName = m.ParentName || '无'
+          if (m.children.length > 0) {
+            reduceDataFunc(m.children, level + 1, m.ObjectGuid)
+          }
+        })
       }
-      this.initTreeData()
+      reduceDataFunc(tempData, 1, '000-000')
+      console.log(tempData)
+      this.treeDataSource = tempData
+    },
+    openExpand(m) {
+      console.log(m)
+      m.isExpand = !m.isExpand
+      // this.changeExpand(m, this.list, m.isExpand)
+      // this.initTreeData()
     },
     // 先改变父级的状态
     changeExpand(m, data, isExpand) {
@@ -165,16 +139,16 @@ export default {
       // if (Utility.dealCode(rs)) return
       // if (rs.Code === 0) {
       //   Utility.ShowToast('删除成功', 'success')
-      //   this.removeNode(this.treeDataSource, this.actionData.item.ObjectGuid)
+      //   this.pxoveNode(this.treeDataSource, this.actionData.item.ObjectGuid)
       // } else {
       //   Utility.ShowToast(rs.Message, 'warning')
       // }
     },
     // 移除对象
-    removeNode(data, removeId) {
+    pxoveNode(data, pxoveId) {
       let vm = this
       data.map((item, i) => {
-        if (item.ObjectGuid === removeId) {
+        if (item.ObjectGuid === pxoveId) {
           let pObjectGuid = item.pObjectGuid
           data.splice(i, 1) // 先删除
           if (item.level === 1) {
@@ -185,7 +159,7 @@ export default {
             this.changeHasChild(pObjectGuid)
           }
         } else {
-          vm.removeNode(item.children, removeId)
+          vm.pxoveNode(item.children, pxoveId)
         }
       })
     },
@@ -232,37 +206,26 @@ export default {
 </script>
 
 <style lang="less">
-.recoveryPage {
-    .i-filter {
-        font-size: 0.28rem;
-        position: absolute;
-        right: 0.32rem;
-    }
+.main {
+    overflow: auto;
 }
-
-.u-title {
-    border-bottom: 1px solid #e8e8e8;
-}
-
 .tree-wrap {
     > li {
-        margin-bottom: 0.05rem;
-        padding-bottom: 0.15rem;
+        margin-bottom: 5px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ccc;
     }
     li {
-        min-height: 1.62rem;
+        min-height: 60px;
         box-sizing: border-box;
         background: #fff;
-        padding: 0.32rem 0.32rem 0 0;
+        padding: 3px 10px 0 0;
         position: relative;
         height: auto;
     }
-    &:last-child {
-        padding-bottom: 0;
-    }
     .box {
         display: block;
-        padding-left: 0.54rem;
+        padding-left: 54px;
         box-shadow: none;
         li {
             &.node:not(:last-child) {
@@ -272,9 +235,9 @@ export default {
                     background-color: #ddd;
                     position: absolute;
                     width: 1px;
-                    height: 1.63rem;
-                    left: -0.273rem;
-                    top: 0.8rem;
+                    height: 100%;
+                    left: -36px;
+                    top: -38px;
                 }
             }
             &::before,
@@ -286,84 +249,24 @@ export default {
             }
             &::before {
                 width: 1px;
-                height: 1.37rem;
-                left: -0.273rem;
-                top: -0.563rem;
+                height: 70px;
+                left: -36px;
+                top: -40px;
             }
             &::after {
-                width: 0.54rem;
+                width: 48px;
                 height: 1px;
-                left: -0.25rem;
-                top: 0.78rem;
+                left: -35px;
+                top: 30px;
             }
         }
     }
     ul {
-        margin-top: 0.1rem;
+        margin-top: 1px;
         li {
-            padding-top: 0.22rem;
+            padding-top: 0;
             padding-right: 0;
         }
-    }
-    .flex-box {
-        display: flex;
-        flex-direction: row;
-        padding-left: 0.54rem;
-        .expand {
-            width: 0.54rem;
-            text-align: center;
-        }
-        &:nth-of-type(2) {
-            margin-top: 0.18rem;
-            margin-bottom: 0.15rem;
-        }
-        > span:not(.expand) {
-            flex: 1;
-            font-weight: normal;
-            font-stretch: normal;
-            letter-spacing: 0px;
-            &.t-team {
-                flex: 2;
-            }
-        }
-        .txt {
-            height: 0.23rem;
-            font-size: 0.24rem;
-            color: rgba(0, 0, 0, 0.65);
-        }
-        .title {
-            height: 0.29rem;
-            font-size: 0.3rem;
-            color: rgba(0, 0, 0, 0.85);
-            i {
-                color: #3d4555;
-                font-size: 12px;
-                margin-right: 0.05rem;
-            }
-        }
-        .t-left {
-            text-align: left;
-        }
-        .t-right {
-            text-align: right;
-        }
-        .i-more {
-            position: relative;
-        }
-        .iconfont {
-            padding-right: 0;
-        }
-        .i-from {
-            font-size: 0.24rem;
-        }
-    }
-    .i-btn-op,
-    .i-btn-close {
-        font-size: 0.2rem;
-        color: #aaa;
-        position: relative;
-        z-index: 1;
-        width: 0.54rem;
     }
 }
 </style>
