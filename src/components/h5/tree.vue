@@ -1,23 +1,8 @@
 <template>
-  <li class="node">
+  <li class="node list-item" data-type="0">
     <template v-if="root !==0 && nodes !== 1">
       <span class="line"></span>
     </template>
-    <!-- <div class="flex-box">
-			<span class="txt t-right">还剩{{model.BelongTo}}天</span>
-		</div>
-		<div class="flex-box" style="padding-left:0">
-			<span class="expand" @click="openExpand(model)">
-				<i v-if="HasChild" class="iconfont" :class="isOpenOrClose"></i>
-			</span>
-			<span class="title">
-				<i class="iconfont" :class="titleIcon"></i>{{model.ObjectName}}</span>
-		</div> -->
-    <!-- <template v-if="HasChild && this.model.isExpand">
-			<ul class="box">
-				<tree-item v-for="(m, i) in model.children" :key="String('child_node'+i)" :num='i' :root="1" @openParentObj="openParentObj" @openExpand="openExpand" @openDelAction="openDelAction" :nodes.sync="model.children.length" :model.sync="m"></tree-item>
-			</ul>
-		</template> -->
     <div class="contanier flex">
       <div class="small-panel flex">
         <span class="label">[负责人]</span>
@@ -44,7 +29,7 @@
     </div>
     <template v-if="HasChild && this.model.isExpand">
       <ul class="box">
-        <tree-item v-for="(m, i) in model.children" :key="String('child_node'+i)" :num='i' :root="1" @openParentObj="openParentObj" @openExpand="openExpand" @openDelAction="openDelAction" :nodes.sync="model.children.length" :model.sync="m"></tree-item>
+        <tree-item v-for="(m, i) in model.children" :key="String('child_node'+i)" :num='i' :root="1" @openExpand="openExpand" @delAction="delAction" :nodes.sync="model.children.length" :model.sync="m"></tree-item>
       </ul>
     </template>
   </li>
@@ -76,17 +61,14 @@ export default {
     }
   },
   methods: {
-    openParentObj(m) {
-      // 打开原上级团队列表
-      this.$emit('openParentObj', m)
-    },
     openExpand(m) {
       console.log(m)
       // if (!m.HasChild) return
       this.$emit('openExpand', m)
     },
-    openDelAction(m) {
-      this.$emit('openDelAction', m)
+    //删除
+    delAction(m) {
+      this.$emit('delAction', m)
     }
   }
 }

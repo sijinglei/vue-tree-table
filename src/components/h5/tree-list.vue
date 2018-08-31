@@ -2,13 +2,8 @@
   <div class="recoveryPage">
     <div class="tree-main">
       <ul class="tree-wrap">
-        <tree-item v-for="(model,i) in treeDataSource" :root="0" :num="i" :nodes="treeDataSource.length" @openParentObj="openParentObj" @openExpand="openExpand" @openDelAction="openDelAction" :model.sync="model" :key="'root_'+i"></tree-item>
+        <tree-item v-for="(model,i) in treeDataSource" :root="0" :num="i" :nodes="treeDataSource.length" @openExpand="openExpand" @delAction="delAction" :model.sync="model" :key="'root_'+i"></tree-item>
       </ul>
-    </div>
-    <!-- 没有数据时 -->
-    <div class="noData" v-if="list && !list.length && !busy">
-      <!-- <img src="../../assets/image/noTask.png"> -->
-      <p>暂无数据</p>
     </div>
   </div>
 </template>
@@ -33,25 +28,26 @@ export default {
   mounted() {
   },
   methods: {
+    delAction() {
+
+    },
     getList(flag = false) {
       this.initTreeData()
     },
     initTreeData() {
       // 临时储存数据
       let tempData = JSON.parse(JSON.stringify(this.list))
-      let reduceDataFunc = (data, level, parentObjectGuid) => {
+      let reduceDataFunc = (data, level) => {
         data.map((m, i) => {
           m.isExpand = m.isExpand || false
           m.children = m.children || []
           m.level = level
-          m.pObjectGuid = parentObjectGuid // 用与子级父级之间的关联
-          m.ParentName = m.ParentName || '无'
           if (m.children.length > 0) {
-            reduceDataFunc(m.children, level + 1, m.ObjectGuid)
+            reduceDataFunc(m.children, level + 1)
           }
         })
       }
-      reduceDataFunc(tempData, 1, '000-000')
+      reduceDataFunc(tempData, 1)
       this.treeDataSource = tempData
     },
     openExpand(m) {
@@ -86,7 +82,7 @@ export default {
         box-shadow: none;
         li {
             &.node:not(:last-child) {
-                .line {
+                > .line {
                     content: '';
                     display: block;
                     background-color: #ddd;
