@@ -2,8 +2,9 @@
 
 > 前些日子做了一个pc端[树形表格](https://github.com/sijinglei/vue-tree-table)的功能，由于项目需要，移动端也要一个树形展示，虽然很不情愿，个人觉得在移动端做多级树结构不是不合理，操作也不方便，但是没办法，给产品交（si）流（bi）很久还是乖乖去做。
 #### 主要技术点：`vue子组件的递归实现及相关样式的实现`
+<br>
 话不多说，先看效果图（[在线预览](https://sijinglei.github.io/vue-tree-table/dist/#/mobile)）（数据和树表格是同一个）：
-![](https://user-gold-cdn.xitu.io/2018/8/31/1658eaf2f154a5df?w=474&h=877&f=gif&s=311068)
+![](https://user-gold-cdn.xitu.io/2018/8/31/1658eaf2f154a5df?w=474&h=877&f=gif&s=311068)<br>
 `注：上面这个iPhoneX效果图是用`[Devices.css](https://picturepan2.github.io/devices.css/)`实现的，模拟手机上显示效果。`
 #### 代码实现
 
